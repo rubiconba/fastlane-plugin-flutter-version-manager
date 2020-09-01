@@ -18,6 +18,9 @@ minor: 0
 patch: 1
 
 ```
+
+This plugin heavily resides on having a git repository. You need to configure [ruby-git](https://github.com/ruby-git/ruby-git). Add ```gem 'git'``` to `fastlane/Pluginfile` or follow the instructions from their repository.
+
 ## About flutter_version_manager
 
 Manages app versioning of a Flutter project. This plugin heavily resides on having a git repository and at least one commit as version code is applied through timestamp of HEAD commit. As for app version, `version.yml` should be used as a single source of truth. In order to apply changes to pubspec, use `-apply` as an argument of a plugin.
