@@ -1,3 +1,10 @@
+lane :test do
+  flutter_version_manager(
+    arguments: "-major",
+    yml: "./version.yml",
+    pubspec: "./example_pubspec.yaml")
+end
+
 lane :bump_major do
   flutter_version_manager(
     arguments: "-major",

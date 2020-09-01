@@ -26,10 +26,10 @@ This plugin heavily resides on having a git repository. You need to configure [r
 Manages app versioning of a Flutter project. This plugin heavily resides on having a git repository and at least one commit as version code is applied through timestamp of HEAD commit. As for app version, `version.yml` should be used as a single source of truth. In order to apply changes to pubspec, use `-apply` as an argument of a plugin.
 
 This plugin accepts 4 arguments:
-`yml` - Path to version.yml file
-`pubspec` - Path to pubspec.yaml file
-`git_repo` - Path to git repository (optional)
-`arguments` - Additional arguments (optional)
+- `yml` - Path to version.yml file
+- `pubspec` - Path to pubspec.yaml file
+- `git_repo` - Path to git repository (optional)
+- `arguments` - Additional arguments as stated below (optional)
 ```
 -h: Access this menu
 -version: Reads current version name
