@@ -128,33 +128,33 @@ module Fastlane
         @git_reader.get_timestamp - GIT_OFFSET
       end
   
-      def bump_major
+      def bump_major(suffix = nil)
         context = @version_reader.all
         context['major'] = context['major'] + 1
         context['minor'] = 0
         context['patch'] = 0
         @version_writter.write(context)
-        update_pubspec
+        update_pubspec(suffix)
       end
   
-      def bump_minor
+      def bump_minor(suffix = nil)
         context = @version_reader.all
         context['minor'] = context['minor'] + 1
         context['patch'] = 0
         @version_writter.write(context)
-        update_pubspec
+        update_pubspec(suffix)
       end
   
-      def bump_patch
+      def bump_patch(suffix = nil)
         context = @version_reader.all
         context['patch'] = context['patch'] + 1
         @version_writter.write(context)
-        update_pubspec
+        update_pubspec(suffix)
       end
       
-      def update_pubspec
+      def update_pubspec(suffix = nil)
         previousVersion = @pubspec_yaml_reader.field('version')
-        newVersion = "#{get_current_version_name}+#{get_current_version_code}"
+        newVersion = "#{get_current_version_name}+#{get_current_version_code}#{suffix}"
         newContent = @pubspec_file_reader.read.map { |s| s.gsub(previousVersion, newVersion) }
         @pubspec_file_writter.write(newContent)
         UI.message("Previous app version: #{previousVersion}")
@@ -170,6 +170,7 @@ module Fastlane
         pubspec_path = params[:pubspec]
         git_path = params[:git_repo] || './'
         args = (params[:arguments] || "").split(" ")
+        suffix = (params[:version_suffix])
 
         # Paths valid, continue
         versionManager = VersionManager.new(version_path, pubspec_path, git_path)
@@ -185,13 +186,13 @@ module Fastlane
             when "-code"
               UI.message(versionManager.get_current_version_code)
             when "-major"
-              versionManager.bump_major
+              versionManager.bump_major(suffix)
             when "-minor"
-              versionManager.bump_minor
+              versionManager.bump_minor(suffix)
             when "-patch"
-              versionManager.bump_patch
+              versionManager.bump_patch(suffix)
             when "-apply"
-              versionManager.update_pubspec
+              versionManager.update_pubspec(suffix)
             end
           }
         else
@@ -235,6 +236,11 @@ module Fastlane
           FastlaneCore::ConfigItem.new(
             key: :git_repo,
             description: "Path to root folder of git repository",
+            optional: true,
+            type: String),
+          FastlaneCore::ConfigItem.new(
+            key: :version_suffix,
+            description: "Number to add to the end of the Git generated version number",
             optional: true,
             type: String)
         ]
